@@ -45,4 +45,16 @@ export default class Piece {
 
         return availableDiagonalMoves
     }
+
+    checkMoveValidity (potentialMoves, board) {
+        let validMoves = new Array(0)
+        for (let move of potentialMoves){
+            if (move.row < GameSettings.BOARD_SIZE && move.row > -1 &&
+                move.col < GameSettings.BOARD_SIZE && move.col > -1 &&
+                typeof board.getPiece(Square.at(move.row, move.col)) === "undefined"){
+                validMoves.push(Square.at(move.row, move.col))
+            }
+        }
+        return validMoves
+    }
 }
