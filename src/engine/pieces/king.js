@@ -22,6 +22,6 @@ export default class King extends Piece {
         for (let [dx, dy] of directions){
             availableMoves.push(new Square(location.row + dx, location.col + dy));
         }
-        return availableMoves;
+        return this.checkMoveValidity(availableMoves, board);
     }
 }
