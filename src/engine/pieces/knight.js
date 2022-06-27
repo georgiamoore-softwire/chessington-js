@@ -10,8 +10,8 @@ export default class Knight extends Piece {
     getAvailableMoves(board) {
         // two squares in one direction, and then one more move at a 90-degree angle
         let location = board.findPiece(this)
-        let availableMoves = []
-        let potentialMoves = []
+        let availableMoves = new Array(0);
+        let potentialMoves = new Array(0);
         
         // row - 2, col + 1
         potentialMoves.push([location.row - 2, location.col + 1])

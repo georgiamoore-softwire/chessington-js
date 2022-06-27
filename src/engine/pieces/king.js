@@ -18,7 +18,7 @@ export default class King extends Piece {
             [-1, 1]
         ]
         let location = board.findPiece(this);
-        let availableMoves = [];
+        let availableMoves = new Array(0);
         for (let [dx, dy] of directions){
             availableMoves.push(new Square(location.row + dx, location.col + dy));
         }
