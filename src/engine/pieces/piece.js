@@ -15,16 +15,13 @@ export default class Piece {
         board.movePiece(currentSquare, newSquare);
     }
 
-    getLateralMovement(location) {
-        let availableLateralMoves = []
-        for (let i = 0; i < GameSettings.BOARD_SIZE; i++){
-            if (i !== location.col) {
-                availableLateralMoves.push(Square.at(location.row, i))
-            }
-            if (i !== location.row) {
-                availableLateralMoves.push(Square.at(i, location.col))
-            }
-        }
+    getLateralMovement(location, board) {
+        let horizontal = this.getHorizontalMovement(location, board)
+        let vertical = this.getVerticalMovement(location, board)
+
+        let availableLateralMoves = new Array(0)
+        availableLateralMoves.push(...horizontal, ...vertical)
+
         return availableLateralMoves
     }
 
@@ -57,4 +54,91 @@ export default class Piece {
         }
         return validMoves
     }
+
+    getHorizontalBoundaries (location, board) {
+        let start = -1
+        let end = GameSettings.BOARD_SIZE + 1
+
+        while(start < 0) {
+            for (let i = location.col; i > -1; i--) {
+                if (typeof board.getPiece(Square.at(location.row, i)) !== "undefined"
+                  && i !== location.col) {
+                    start = i
+
+
+                }
+            }
+            if (start === -1) { start = 0 }
+        }
+        while(end > GameSettings.BOARD_SIZE) {
+            for (let i = location.col; i < GameSettings.BOARD_SIZE; i++) {
+
+                if (typeof board.getPiece(Square.at(location.row, i)) !== "undefined"
+                  && i !== location.col) {
+                    end = i
+                }
+            }
+            if (end === GameSettings.BOARD_SIZE + 1) { end = GameSettings.BOARD_SIZE }
+        }
+
+        return [start, end]
+    }
+
+    getHorizontalMovement (location, board)  {
+        let availableMoves = new Array(0)
+        let boundaries = this.getHorizontalBoundaries(location, board)
+
+        for (let i = boundaries[0]; i<boundaries[1]; i++){
+
+            if (i !== location.col) {
+                // if no blocking piece in between i and location
+                availableMoves.push(Square.at(location.row, i))
+            }
+        }
+
+        return availableMoves
+    }
+
+
+    getVerticalBoundaries (location, board) {
+        let start = -1
+        let end = GameSettings.BOARD_SIZE + 1
+
+        while(start < 0) {
+            for (let i = location.row; i > -1; i--) {
+                if (typeof board.getPiece(Square.at(i, location.col)) !== "undefined"
+                  && i !== location.row) {
+                    start = i
+
+                }
+            }
+            if (start === -1) { start = 0 }
+        }
+        while(end > GameSettings.BOARD_SIZE) {
+            for (let i = location.row; i < GameSettings.BOARD_SIZE; i++) {
+                if (typeof board.getPiece(Square.at(i, location.col)) !== "undefined"
+                  && i !== location.row) {
+                    end = i
+                }
+            }
+            if (end === GameSettings.BOARD_SIZE + 1) { end = GameSettings.BOARD_SIZE }
+        }
+        return [start, end]
+    }
+
+    getVerticalMovement (location, board)  {
+        let availableMoves = new Array(0)
+        let boundaries = this.getVerticalBoundaries(location, board)
+
+        for (let i = boundaries[0]; i<boundaries[1]; i++){
+            if (i !== location.row) {
+                // if no blocking piece in between i and location
+                availableMoves.push(Square.at(i, location.col))
+            }
+        }
+
+        return availableMoves
+
+    }
+
 }

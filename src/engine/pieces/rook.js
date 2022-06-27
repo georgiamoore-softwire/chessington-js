@@ -1,4 +1,6 @@
 import Piece from './piece';
+import Square from '../square';
+import GameSettings from '../gameSettings';
 
 export default class Rook extends Piece {
     constructor(player) {
@@ -6,6 +8,8 @@ export default class Rook extends Piece {
     }
 
     getAvailableMoves(board) {
-        return this.checkMoveValidity(this.getLateralMovement(board.findPiece(this)), board)
+        let lateralMoves = this.getLateralMovement(board.findPiece(this), board);
+        return this.checkMoveValidity(lateralMoves, board);
     }
+
 }
