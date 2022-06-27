@@ -6,6 +6,9 @@ export default class Queen extends Piece {
     }
 
     getAvailableMoves(board) {
-        return new Array(0);
+        let availableMoves = [];
+        availableMoves.push(...this.getDiagonalMovement(board.findPiece(this)));
+        availableMoves.push(...this.getLateralMovement(board.findPiece(this)));
+        return availableMoves;
     }
 }
